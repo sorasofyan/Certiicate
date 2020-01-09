@@ -15,6 +15,10 @@ class CreateMaterialsTable extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name',50);
+            $table->integer('price');
+            $table->unsignedBigInteger('certificate_id');
+            $table->foreign('certificate_id')->references('id')->on('certificates')->onDelete('cascade');
             $table->timestamps();
         });
     }

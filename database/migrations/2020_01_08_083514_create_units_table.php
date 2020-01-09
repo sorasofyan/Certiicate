@@ -15,6 +15,9 @@ class CreateUnitsTable extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name',50);
+            $table->unsignedBigInteger('material_id');
+            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
             $table->timestamps();
         });
     }
