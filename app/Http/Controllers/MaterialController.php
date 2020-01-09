@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Material;
 use Illuminate\Http\Request;
 
-class Material extends Controller
+class MaterialController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,9 @@ class Material extends Controller
      */
     public function index()
     {
-        //
+       
+        $data = Material::all();
+        return response()->json($data);
     }
 
     /**
@@ -34,7 +36,16 @@ class Material extends Controller
      */
     public function store(Request $request)
     {
-        //
+         
+        $Material = new Material();
+        //On left field name in DB and on right field name in Form/view
+        $Material->name = $request->input('name');
+        $Material->price = $request->input('price');
+        $Material->certificate_id = $request->input('certificate_id');
+
+        $Material->save();
+        
+       return response()->json($data);
     }
 
     /**
@@ -45,7 +56,9 @@ class Material extends Controller
      */
     public function show($id)
     {
-        //
+        $data=Material::find($id);
+
+        return response()->json($data);
     }
 
     /**
@@ -68,7 +81,16 @@ class Material extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+          
+        $data=Material::find($id);
+        //On left field name in DB and on right field name in Form/view
+        $Material->name = $request->input('name');
+        $Material->price = $request->input('price');
+        $Material->certificate_id = $request->input('certificate_id');
+
+        $Material->save();
+        
+       return response()->json($data);
     }
 
     /**
@@ -79,6 +101,9 @@ class Material extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Material::findOrFail($id);
+        $data->delete();
+        $data = Material::all();
+        return response(['data'=> $data,'message'=>"Deleted successfully"]);
     }
 }
