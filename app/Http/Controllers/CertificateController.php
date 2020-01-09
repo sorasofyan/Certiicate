@@ -35,24 +35,28 @@ class CertificateController extends Controller
      */
     public function store(Request $request)
     {
-        $certificate = new certificate();
+        $Certificate = new Certificate();
         //On left field name in DB and on right field name in Form/view
-        $certificate->certificates = $request->input('name');
-       
-        $certificate->save();
+        $Certificate->certificates = $request->input('name');
+        $Certificate->certificates = $request->input('price');
+        $Certificate->certificates = $request->input('image');
+        $Certificate->certificates = $request->input('description');
+        $Certificate->save();
         
        return response()->json($data);
     }
 
     /**
-     * Display the specified resource.
      *
+     * Display the specified resource.
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return ":";
+        $data=Certificate::find($id);
+
+        return response()->json($data);
     }
 
     /**
@@ -63,7 +67,9 @@ class CertificateController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data=Certificate::find($id);
+        
+        return response()->json($data);
     }
 
     /**
@@ -75,7 +81,13 @@ class CertificateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data=Certificate::find($id);
+        $Certificate->certificates = $request->input('name');
+        $Certificate->certificates = $request->input('price');
+        $Certificate->certificates = $request->input('image');
+        $Certificate->certificates = $request->input('description');
+        $data->save();  
+        return response()->json($data);
     }
 
     /**
@@ -86,10 +98,9 @@ class CertificateController extends Controller
      */
     public function destroy($id)
     {
-        $data = certificate::findOrFail($id);
+        $data = Certificate::findOrFail($id);
         $data->delete();
-        $data = certificate::all();
-       // return  ['data'=> $data,'message'=>"Deleted successfully"];
+        $data = Certificate::all();
         return response(['data'=> $data,'message'=>"Deleted successfully"]);
     }
 }
