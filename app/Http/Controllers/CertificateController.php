@@ -37,10 +37,10 @@ class CertificateController extends Controller
     {
         $Certificate = new Certificate();
         //On left field name in DB and on right field name in Form/view
-        $Certificate->certificates = $request->input('name');
-        $Certificate->certificates = $request->input('price');
-        $Certificate->certificates = $request->input('image');
-        $Certificate->certificates = $request->input('description');
+        $Certificate->name = $request->input('name');
+        $Certificate->price = $request->input('price');
+        $Certificate->image = $request->input('image');
+        $Certificate->description = $request->input('description');
         $Certificate->save();
         
        return response()->json($data);
@@ -67,9 +67,7 @@ class CertificateController extends Controller
      */
     public function edit($id)
     {
-        $data=Certificate::find($id);
-        
-        return response()->json($data);
+       //
     }
 
     /**
@@ -82,10 +80,10 @@ class CertificateController extends Controller
     public function update(Request $request, $id)
     {
         $data=Certificate::find($id);
-        $Certificate->certificates = $request->input('name');
-        $Certificate->certificates = $request->input('price');
-        $Certificate->certificates = $request->input('image');
-        $Certificate->certificates = $request->input('description');
+        $Certificate->name = $request->input('name');
+        $Certificate->price = $request->input('price');
+        $Certificate->image = $request->input('image');
+        $Certificate->description = $request->input('description');
         $data->save();  
         return response()->json($data);
     }
