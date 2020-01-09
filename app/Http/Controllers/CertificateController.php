@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Certificate;
 use Illuminate\Http\Request;
 
-class Certificate extends Controller
+class CertificateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,8 @@ class Certificate extends Controller
      */
     public function index()
     {
-        //
+        $data = Certificate::all();
+        return response()->json($data);
     }
 
     /**
@@ -34,7 +35,13 @@ class Certificate extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $certificate = new certificate();
+        //On left field name in DB and on right field name in Form/view
+        $certificate->certificates = $request->input('name');
+       
+        $certificate->save();
+        
+       return response()->json($data);
     }
 
     /**
@@ -45,7 +52,7 @@ class Certificate extends Controller
      */
     public function show($id)
     {
-        //
+        return ":";
     }
 
     /**
@@ -79,6 +86,10 @@ class Certificate extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = certificate::findOrFail($id);
+        $data->delete();
+        $data = certificate::all();
+       // return  ['data'=> $data,'message'=>"Deleted successfully"];
+        return response(['data'=> $data,'message'=>"Deleted successfully"]);
     }
 }
