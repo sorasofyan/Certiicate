@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Unit;
 use Illuminate\Http\Request;
 
-class Unit extends Controller
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,8 @@ class Unit extends Controller
      */
     public function index()
     {
-        //
+        $data = Unit::all();
+        return response()->json($data);
     }
 
     /**
@@ -34,7 +35,14 @@ class Unit extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Unit = new Unit();
+        //On left field name in DB and on right field name in Form/view
+        $Unit->name = $request->input('name');
+        $Unit->material_id = $request->input('material_id');
+
+        $Unit->save();
+        
+       return response()->json($data);
     }
 
     /**
@@ -45,7 +53,9 @@ class Unit extends Controller
      */
     public function show($id)
     {
-        //
+        $data=Unit::find($id);
+
+        return response()->json($data);
     }
 
     /**
@@ -68,7 +78,14 @@ class Unit extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data=Unit::find($id);
+        //On left field name in DB and on right field name in Form/view
+        $Unit->name = $request->input('name');
+        $Unit->material_id = $request->input('material_id');
+
+
+        $Unit->save();
+        
     }
 
     /**
@@ -79,6 +96,9 @@ class Unit extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Unit::findOrFail($id);
+        $data->delete();
+        $data = Unit::all();
+        return response(['data'=> $data,'message'=>"Deleted successfully"]);
     }
 }

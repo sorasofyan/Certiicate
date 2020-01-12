@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Answer;
+use App\Question;
+
 use Illuminate\Http\Request;
 
-class AnswerController extends Controller
+class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,8 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        $data = Answer::all();
+        
+        $data = Question::all();
         return response()->json($data);
     }
 
@@ -35,14 +37,15 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
-        $Answer = new Answer();
+        $Question = new Question();
         //On left field name in DB and on right field name in Form/view
-        $Answer->right = $request->input('right');
-        $Answer->content = $request->input('content');
-        $Answer->question_id = $request->input('question_id');
+        $Question->name = $request->input('name');
+        $Question->content = $request->input('content');
+        $Question->unit_id = $request->input('unit_id');
 
-        $Answer->save();
+        $Question->save();
         
+       return response()->json($data);
     }
 
     /**
@@ -53,7 +56,7 @@ class AnswerController extends Controller
      */
     public function show($id)
     {
-        $data=Answer::find($id);
+        $data=Question::find($id);
 
         return response()->json($data);
     }
@@ -78,14 +81,14 @@ class AnswerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data=Answer::find($id);
+        $data=Question::find($id);
         //On left field name in DB and on right field name in Form/view
-        $Answer->right = $request->input('right');
-        $Answer->content = $request->input('content');
-        $Answer->question_id = $request->input('question_id');
+        $Question->name = $request->input('name');
+        $Question->content = $request->input('content');
+        $Question->unit_id = $request->input('unit_id');
 
 
-        $Answer->save();
+        $Question->save();
         
        return response()->json($data);
     }
@@ -99,9 +102,10 @@ class AnswerController extends Controller
     public function destroy($id)
     {
         
-        $data = Answer::findOrFail($id);
+        $data = Question::findOrFail($id);
         $data->delete();
-        $data = Answer::all();
+        $data = Question::all();
         return response(['data'=> $data,'message'=>"Deleted successfully"]);
     }
+
 }
