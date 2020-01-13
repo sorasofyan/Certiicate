@@ -15,7 +15,8 @@ class MaterialController extends Controller
     {
        
         $data = Material::all();
-        return response()->json($data);
+        $datacount=Material::all()->count();
+        return response()->json([$data,$datacount]);
     }
 
     /**
@@ -45,7 +46,7 @@ class MaterialController extends Controller
 
         $Material->save();
         
-       return response()->json($data);
+       return response()->json($Material);
     }
 
     /**
@@ -58,7 +59,7 @@ class MaterialController extends Controller
     {
         $data=Material::find($id);
 
-        return response()->json($data);
+        return response()->json($Material);
     }
 
     /**
@@ -90,7 +91,7 @@ class MaterialController extends Controller
 
         $Material->save();
         
-       return response()->json($data);
+       return response()->json($Material);
     }
 
     /**

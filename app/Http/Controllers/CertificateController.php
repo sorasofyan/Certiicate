@@ -14,7 +14,10 @@ class CertificateController extends Controller
     public function index()
     {
         $data = Certificate::all();
-        return response()->json($data);
+        $datacount=Certificate::all()->count();
+        $datadate =Certificate::orderBy('created_at', 'DESC')->get();
+        $dataname =Certificate::orderBy('name')->get();
+        return response()->json([$data, $dataname,$datacount,$datadate]);
     }
 
     /**
@@ -35,15 +38,18 @@ class CertificateController extends Controller
      */
     public function store(Request $request)
     {
+
         $Certificate = new Certificate();
         //On left field name in DB and on right field name in Form/view
         $Certificate->name = $request->input('name');
         $Certificate->price = $request->input('price');
         $Certificate->image = $request->input('image');
         $Certificate->description = $request->input('description');
+        
+      
         $Certificate->save();
         
-       return response()->json($data);
+       return response()->json($Certificate);
     }
 
     /**
@@ -84,8 +90,9 @@ class CertificateController extends Controller
         $Certificate->price = $request->input('price');
         $Certificate->image = $request->input('image');
         $Certificate->description = $request->input('description');
+        
         $data->save();  
-        return response()->json($data);
+        return response()->json($Certificate);
     }
 
     /**
@@ -101,4 +108,5 @@ class CertificateController extends Controller
         $data = Certificate::all();
         return response(['data'=> $data,'message'=>"Deleted successfully"]);
     }
+   
 }

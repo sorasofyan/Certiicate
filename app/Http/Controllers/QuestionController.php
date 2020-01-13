@@ -45,7 +45,7 @@ class QuestionController extends Controller
 
         $Question->save();
         
-       return response()->json($data);
+       return response()->json($Question);
     }
 
     /**
@@ -90,7 +90,7 @@ class QuestionController extends Controller
 
         $Question->save();
         
-       return response()->json($data);
+       return response()->json($Question);
     }
 
     /**

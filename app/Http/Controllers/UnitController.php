@@ -42,7 +42,7 @@ class UnitController extends Controller
 
         $Unit->save();
         
-       return response()->json($data);
+       return response()->json($Unit);
     }
 
     /**
@@ -55,7 +55,7 @@ class UnitController extends Controller
     {
         $data=Unit::find($id);
 
-        return response()->json($data);
+        return response()->json($Unit);
     }
 
     /**
@@ -85,7 +85,8 @@ class UnitController extends Controller
 
 
         $Unit->save();
-        
+        return response()->json($Unit);
+
     }
 
     /**
