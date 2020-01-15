@@ -15,19 +15,18 @@ class QuestionController extends Controller
     public function index()
     {
         
-        $data = Question::all();
-        return response()->json($data);
+       /* $data = Question::all();
+        return response()->json($data);*/
+
+        $datacount = Question::all()->count();
+        $datadate = Question::orderBy('created_at', 'DESC')->get();
+        $dataname = Question::where('name','=','one')->get();
+        
+        return response()->json(['Count'=>$datacount,'orderdby->created_at'=>$datadate,'Name'=>$dataname]);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -61,16 +60,6 @@ class QuestionController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -83,14 +72,14 @@ class QuestionController extends Controller
     {
         $data=Question::find($id);
         //On left field name in DB and on right field name in Form/view
-        $Question->name = $request->input('name');
-        $Question->content = $request->input('content');
-        $Question->unit_id = $request->input('unit_id');
+        $data->name = $request->input('name');
+        $data->content = $request->input('content');
+        $data->unit_id = $request->input('unit_id');
 
 
-        $Question->save();
+        $data->save();
         
-       return response()->json($Question);
+       return response()->json($data);
     }
 
     /**
@@ -104,8 +93,8 @@ class QuestionController extends Controller
         
         $data = Question::findOrFail($id);
         $data->delete();
-        $data = Question::all();
-        return response(['data'=> $data,'message'=>"Deleted successfully"]);
+      
+        return response("Deleted successfully");
     }
 
 }

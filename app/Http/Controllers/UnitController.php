@@ -13,19 +13,18 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $data = Unit::all();
-        return response()->json($data);
+       /* $data = Unit::all();
+        return response()->json($data);*/
+
+        $datacount = Unit::all()->count();
+        $datadate = Unit::orderBy('created_at', 'DESC')->get();
+        $dataname = Unit::where('name','=','aaaa')->get();
+        
+        return response()->json(['Count'=>$datacount,'orderdby->created_at'=>$datadate,'Name'=>$dataname]);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -55,19 +54,10 @@ class UnitController extends Controller
     {
         $data=Unit::find($id);
 
-        return response()->json($Unit);
+        return response()->json($data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+  
 
     /**
      * Update the specified resource in storage.
@@ -80,12 +70,12 @@ class UnitController extends Controller
     {
         $data=Unit::find($id);
         //On left field name in DB and on right field name in Form/view
-        $Unit->name = $request->input('name');
-        $Unit->material_id = $request->input('material_id');
+        $data->name = $request->input('name');
+        $data->material_id = $request->input('material_id');
 
 
-        $Unit->save();
-        return response()->json($Unit);
+        $data->save();
+        return response()->json($data);
 
     }
 
@@ -99,7 +89,6 @@ class UnitController extends Controller
     {
         $data = Unit::findOrFail($id);
         $data->delete();
-        $data = Unit::all();
-        return response(['data'=> $data,'message'=>"Deleted successfully"]);
+        return response("Deleted successfully");
     }
 }

@@ -12,23 +12,15 @@ class CertificateController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $data = Certificate::all();
-        $datacount=Certificate::all()->count();
-        $datadate =Certificate::orderBy('created_at', 'DESC')->get();
-        $dataname =Certificate::orderBy('name')->get();
-        return response()->json([$data, $dataname,$datacount,$datadate]);
-    }
+    { 
+       // $data = Certificate::all();
+        $datacount= Certificate::all()->count();
+        $datadate = Certificate::orderBy('created_at', 'DESC')->get();
+        $dataname = Certificate::where('name','=','aaa')->get();
+        $dataprice = Certificate::where('price','=','0')->get();
+        return response()->json(['Count'=>$datacount,'orderdby->created_at'=>$datadate,'Name'=>$dataname,'price'=>$dataprice]);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   }
 
     /**
      * Store a newly created resource in storage.
@@ -45,9 +37,7 @@ class CertificateController extends Controller
         $Certificate->price = $request->input('price');
         $Certificate->image = $request->input('image');
         $Certificate->description = $request->input('description');
-        
-      
-        $Certificate->save();
+       $Certificate->save();
         
        return response()->json($Certificate);
     }
@@ -66,17 +56,6 @@ class CertificateController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-       //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -85,16 +64,17 @@ class CertificateController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return Certificate::find($id);
         $data=Certificate::find($id);
-        $Certificate->name = $request->input('name');
-        $Certificate->price = $request->input('price');
-        $Certificate->image = $request->input('image');
-        $Certificate->description = $request->input('description');
+        $data->name = $request->input('name');
+        $data->price = $request->input('price');
+        $data->image = $request->input('image');
+        $data->description = $request->input('description');
         
         $data->save();  
-        return response()->json($Certificate);
+        return response()->json($data);
     }
-
+   
     /**
      * Remove the specified resource from storage.
      *
@@ -105,8 +85,9 @@ class CertificateController extends Controller
     {
         $data = Certificate::findOrFail($id);
         $data->delete();
-        $data = Certificate::all();
-        return response(['data'=> $data,'message'=>"Deleted successfully"]);
+        //$data = Certificate::all();
+       // return response(['data'=> $data,'message'=>"Deleted successfully"]);
+        return response("Deleted successfully");
     }
    
 }

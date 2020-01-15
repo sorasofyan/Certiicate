@@ -13,19 +13,17 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        $data = Answer::all();
-        return response()->json($data);
+      /*  $data = Answer::all();
+        return response()->json($data);*/
+        $datacount = Answer::all()->count();
+        $datadate = Answer::orderBy('created_at', 'DESC')->get();
+        $dataname = Answer::where('content','=','yes')->get();
+        
+        return response()->json(['Count'=>$datacount,'orderdby->created_at'=>$datadate,'Name'=>$dataname]);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -42,7 +40,7 @@ class AnswerController extends Controller
         $Answer->question_id = $request->input('question_id');
 
         $Answer->save();
-        
+        return response()->json($Answer);
     }
 
     /**
@@ -58,21 +56,12 @@ class AnswerController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -80,12 +69,12 @@ class AnswerController extends Controller
     {
         $data=Answer::find($id);
         //On left field name in DB and on right field name in Form/view
-        $Answer->right = $request->input('right');
-        $Answer->content = $request->input('content');
-        $Answer->question_id = $request->input('question_id');
+        $data->right = $request->input('right');
+        $data->content = $request->input('content');
+        $data->question_id = $request->input('question_id');
 
 
-        $Answer->save();
+        $data->save();
         
        return response()->json($data);
     }
@@ -101,7 +90,6 @@ class AnswerController extends Controller
         
         $data = Answer::findOrFail($id);
         $data->delete();
-        $data = Answer::all();
-        return response(['data'=> $data,'message'=>"Deleted successfully"]);
+        return response("Deleted successfully");
     }
 }

@@ -13,10 +13,15 @@ class MaterialController extends Controller
      */
     public function index()
     {
-       
-        $data = Material::all();
+        $datacount = Material::all()->count();
+        $datadate = Material::orderBy('created_at', 'DESC')->get();
+        $dataname = Material::where('name','=','sxwsdx')->get();
+        $dataprice = Material::where('price','=','20')->get();
+        return response()->json(['Count'=>$datacount,'orderdby->created_at'=>$datadate,'Name'=>$dataname,'price'=>$dataprice]);
+
+       /* $data = Material::all();
         $datacount=Material::all()->count();
-        return response()->json([$data,$datacount]);
+        return response()->json([$data,$datacount]);*/
     }
 
     /**
@@ -59,7 +64,7 @@ class MaterialController extends Controller
     {
         $data=Material::find($id);
 
-        return response()->json($Material);
+        return response()->json($data);
     }
 
     /**
@@ -85,13 +90,13 @@ class MaterialController extends Controller
           
         $data=Material::find($id);
         //On left field name in DB and on right field name in Form/view
-        $Material->name = $request->input('name');
-        $Material->price = $request->input('price');
-        $Material->certificate_id = $request->input('certificate_id');
+        $data->name = $request->input('name');
+        $data->price = $request->input('price');
+        $data->certificate_id = $request->input('certificate_id');
 
-        $Material->save();
+        $data->save();
         
-       return response()->json($Material);
+       return response()->json($data);
     }
 
     /**
@@ -104,7 +109,7 @@ class MaterialController extends Controller
     {
         $data = Material::findOrFail($id);
         $data->delete();
-        $data = Material::all();
-        return response(['data'=> $data,'message'=>"Deleted successfully"]);
+       // $data = Material::all();
+        return response("Deleted successfully");
     }
 }
